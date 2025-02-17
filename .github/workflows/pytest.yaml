@@ -1,0 +1,70 @@
+name: Python pytest 
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    service:
+      mongodb:
+        image: mongo:latest
+        ports:
+          - 27017:27017 
+  steps:
+  - name: Git Checkout
+    uses: actions/checkout@v4
+  - name: Set up Python
+    uses: actions/setup-python@v5
+    with:
+      python-version: '3.x'
+  - name: Install dependencies
+    run: |
+      python -m pip install --upgrade pip
+      # pip install -r requirements.txt
+      pip install pytest pytest-cov pymongo
+  - name: Test with pytest
+    run: |
+      # pytest test.py --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
+      pytest test.py --cov=com --cov-report=md
+            - name: Pytest Coverage Comment
+  # You may pin to the exact commit or the version.
+  # uses: MishaKav/pytest-coverage-comment@a1fe18e2b00c64a765568e2edb9f1706eb8fc88b
+  uses: MishaKav/pytest-coverage-comment@v1.1.51
+  with:
+    # GitHub API Access Token
+    github-token: # default is ${{ github.token }}
+    # The location of the txt output of pytest-coverage
+    pytest-coverage-path: # optional, default is ./pytest-coverage.txt
+    # PR number for the PR you want the comment to post to.
+    issue-number: # optional, default is 
+    # The location of coverage-xml from pytest-coverage
+    pytest-xml-coverage-path: # optional, default is 
+    # Prefix for path when link to files in comment
+    coverage-path-prefix: # optional, default is 
+    # Title for the coverage report. Useful for monorepo projects
+    title: # optional, default is Coverage Report
+    # Title for the badge icon
+    badge-title: # optional, default is Coverage
+    # Hide badge with percentage
+    hide-badge: # optional, default is false
+    # Hide coverage report
+    hide-report: # optional, default is false
+    # Hide the whole comment (use when you need only `output`)
+    hide-comment: # optional, default is false
+    # Show in report only changed files for this commit, and not all files
+    report-only-changed-files: # optional, default is false
+    # The location of the junitxml path
+    junitxml-path: # optional, default is 
+    # Title for summary for junitxml
+    junitxml-title: # optional, default is 
+    # When false, will update the same comment, otherwise will publish new comment on each run
+    create-new-comment: # optional, default is false
+    # This branch name is usefull when generate "coverageHtml", it points direct links to files on this branch (instead of commit). Usually "main" or "master"
+    default-branch: # optional, default is main
+    # You can pass array of titles and files to generate single comment with table of results.  Single line should look like `Title, ./path/to/pytest-coverage.txt, ./path/to/pytest.xml` example: 
+  My Title 1, ./data/pytest-coverage_3.txt, ./data/pytest_1.xml
+
+    multiple-files: # optional, default is 
+    # When true, it will remove the link from badge to readme
+    remove-link-from-badge: # optional, default is false
+    # When running in a matrix, pass the matrix value, so each comment will be updated its own comment
+    unique-id-for-comment: # optional, default is 
+          
