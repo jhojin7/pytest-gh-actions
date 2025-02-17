@@ -1,6 +1,7 @@
 # Run: pytest test.py
 import pytest
 from pymongo import MongoClient
+from a import f
 
 
 def get_db():
@@ -13,13 +14,9 @@ def get_db():
     return collection
 
 
-def do():
-    print("do")
-
-
 def test_do():
-    do()
-    assert 1 == 1
+    y = f(1)
+    assert y != 1
 
 
 def test_insert():
