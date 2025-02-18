@@ -27,9 +27,9 @@ jobs:
         pip install pytest pytest-cov pymongo
     - name: Build coverage file
       run: |
-        pytest tests/ --junitxml=pytest.xml --cov=tests/ | tee pytest-coverage.txt
+        pytest app/ --junitxml=pytest.xml --cov=app/ | tee pytest-coverage.txt
     - name: Pytest coverage comment
       uses: MishaKav/pytest-coverage-comment@main
       with:
-        pytest-coverage-path: ./pytest-coverage.txt
-        junitxml-path: ./pytest.xml
+        pytest-coverage-path: pytest-coverage.txt
+        junitxml-path: pytest.xml
