@@ -1,10 +1,9 @@
 name: Python pytest 
 on: [push]
 permissions:
+  contents: write
+  checks: write
   pull-requests: write
-  issues: write
-  repository-projects: write
-  deployments: write
 jobs:
   build:
     runs-on: ubuntu-latest
